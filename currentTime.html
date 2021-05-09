@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time</title>
+    <style>
+        /*  The style fits OBS Studio. Optimal as a custom browser dock. 
+        */
+        /*  To include the digital clock as a browser source in the livestream,
+            the following settings must be made in the properties in OBS:
+            Width 1920
+            Height 500 
+            Custom CSS:
+            body {
+                background-color: rgba(0, 0, 0, 0);
+                margin: 0px auto; overflow: hidden; 
+               }
+            p {
+                font-size: 20vw;
+                }
+        */
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #3A393A;
+            color: rgb(239, 240, 241);
+            font-family: "Open Sans", "Tahoma", "Arial", sans-serif;
+            font-size: 11px;
+        }
+
+        p {
+            font-size: 30px;
+            font-variant-numeric: lining-nums tabular-nums;
+            text-align: center;
+            /* margin: 0px auto; 
+            overflow: hidden; */
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p id="currentTime">Time</p>
+
+    <script>
+        // Time
+        const formatTwoDigits = v => v.toString().length == 1 ? "0" + v : v;
+        const getCurrentTime = () => {
+            let date = new Date();
+            let hour = formatTwoDigits(date.getHours()); // hours
+            let minute = formatTwoDigits(date.getMinutes()); // minutes
+            let second = formatTwoDigits(date.getSeconds()); // seconds
+            let deziseconds = Math.floor(date.getMilliseconds() / 100); // tenths of seconds
+            // If you don't want to show tenths of seconds, comment out the line above.
+            // In the following line, delete everything inside the brackets after "second".
+            return (hour + ":" + minute + ":" + second + "." + deziseconds);
+        }
+        const updateTime = () => {
+            document.getElementById("currentTime").innerText = getCurrentTime();
+            window.requestAnimationFrame(updateTime);
+        }
+
+        updateTime();
+    </script>
+
+</body>
+
+</html>
+
+<!--    Copy this file to any folder.  To create a custom browser dock in OBS,
+        all you have to do is copy the link to the file into the "URL" field. 
+        It will look like this: 
+        file:///C:/path/to/your/files/currentTime.html  
+-->
